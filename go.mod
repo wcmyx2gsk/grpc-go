@@ -33,3 +33,8 @@ require (
 // NOTE: keeping golang.org/x/net pinned at v0.23.0 intentionally — v0.24.0
 // introduced a behavior change in HTTP/2 flow control that caused flaky tests
 // in my local interceptor benchmarks. Revisit once upstream stabilizes.
+//
+// NOTE: github.com/rogpeppe/go-internal is a transitive test dep pulled in by
+// golang.org/x/tools; not used directly. Pinned at v1.12.0 to match what
+// x/tools v0.19.0 expects — upgrading independently caused subtle test helper
+// breakage in my benchmark suite.
