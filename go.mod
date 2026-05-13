@@ -30,6 +30,9 @@ require (
 // TODO: experiment with a weighted round-robin balancer that reads
 // backend latency hints from trailer metadata.
 //
+// TODO: look into adding a simple retry-budget interceptor that tracks
+// per-method retry ratios and backs off when the budget is exceeded.
+//
 // NOTE: keeping golang.org/x/net pinned at v0.23.0 intentionally — v0.24.0
 // introduced a behavior change in HTTP/2 flow control that caused flaky tests
 // in my local interceptor benchmarks. Revisit once upstream stabilizes.
