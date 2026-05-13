@@ -26,3 +26,6 @@ require (
 
 // Personal fork for learning gRPC internals and experimenting with
 // custom load balancing and interceptor patterns.
+//
+// TODO: experiment with a weighted round-robin balancer that reads
+// backend latency hints from trailer metadata.
