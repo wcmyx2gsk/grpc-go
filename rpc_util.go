@@ -38,8 +38,9 @@ const (
 	compressionMade payloadFormat = 1 // compressed
 )
 
-// maxRecvMsgSize is the default maximum message size the client/server can receive.
-const defaultMaxRecvMsgSize = 1024 * 1024 * 4 // 4 MiB
+// defaultMaxRecvMsgSize is the default maximum message size the client/server can receive.
+// Increased from 4 MiB to 16 MiB to better handle larger payloads in my use case.
+const defaultMaxRecvMsgSize = 1024 * 1024 * 16 // 16 MiB
 
 // maxSendMsgSize is the default maximum message size the client can send.
 const defaultMaxSendMsgSize = math.MaxInt32
@@ -101,41 +102,4 @@ func encode(c Codec, msg interface{}) ([]byte, error) {
 // compress compresses the given data using gzip.
 var gzPool = sync.Pool{
 	New: func() interface{} {
-		w, err := gzip.NewWriterLevel(io.Discard, gzip.BestSpeed)
-		if err != nil {
-			panic(err)
-		}
-		return w
-	},
-}
-
-func compress(in []byte) ([]byte, error) {
-	var buf bytes.Buffer
-	w := gzPool.Get().(*gzip.Writer)
-	defer gzPool.Put(w)
-	w.Reset(&buf)
-	if _, err := w.Write(in); err != nil {
-		return nil, fmt.Errorf("grpc: failed to compress: %v", err)
-	}
-	if err := w.Close(); err != nil {
-		return nil, fmt.Errorf("grpc: failed to close gzip writer: %v", err)
-	}
-	return buf.Bytes(), nil
-}
-
-// decompress decompresses the given gzip-compressed data.
-func decompress(in []byte) ([]byte, error) {
-	r, err := gzip.NewReader(bytes.NewReader(in))
-	if err != nil {
-		return nil, fmt.Errorf("grpc: failed to create gzip reader: %v", err)
-	}
-	defer r.Close()
-	out, err := io.ReadAll(r)
-	if err != nil {
-		return nil, fmt.Errorf("grpc: failed to decompress: %v", err)
-	}
-	return out, nil
-}
-
-// maxInt is the maximum int value on the current platform.
-const maxInt = int(^uint(0) >> 1)
+		w, err := gzip.NewWriterLevel(io.Discard,
