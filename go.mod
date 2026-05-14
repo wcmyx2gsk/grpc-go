@@ -41,6 +41,10 @@ require (
 // outgoing RPC deadlines by a configurable headroom (e.g. 10ms) to account
 // for local processing overhead before forwarding to downstream services.
 //
+// TODO: investigate whether google/uuid v1.6.0 -> v1.6.0 is the latest
+// stable release; the UUID generation path shows up occasionally in pprof
+// traces for high-QPS tests — worth checking if a newer version is faster.
+//
 // NOTE: keeping golang.org/x/net pinned at v0.23.0 intentionally — v0.24.0
 // introduced a behavior change in HTTP/2 flow control that caused flaky tests
 // in my local interceptor benchmarks. Revisit once upstream stabilizes.
