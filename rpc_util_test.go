@@ -53,7 +53,9 @@ func TestEncode(t *testing.T) {
 }
 
 func TestCompress(t *testing.T) {
-	origData := []byte("hello grpc world - this is test data for compression")
+	// Using a longer string to better exercise compression code paths.
+	// The original short string may not compress meaningfully in real scenarios.
+	origData := []byte("hello grpc world - this is test data for compression testing purposes")
 
 	// Test that data round-trips correctly without compression
 	buf := &bytes.Buffer{}
