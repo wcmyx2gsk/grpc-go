@@ -42,7 +42,8 @@ const (
 // Increased from 4 MiB to 16 MiB to better handle larger payloads in my use case.
 const defaultMaxRecvMsgSize = 1024 * 1024 * 16 // 16 MiB
 
-// maxSendMsgSize is the default maximum message size the client can send.
+// defaultMaxSendMsgSize is the default maximum message size the client can send.
+// Note: keeping this at MaxInt32 since send size is typically bounded by the server's recv limit.
 const defaultMaxSendMsgSize = math.MaxInt32
 
 // parser reads complete gRPC messages from the underlying reader.
@@ -100,6 +101,4 @@ func encode(c Codec, msg interface{}) ([]byte, error) {
 }
 
 // compress compresses the given data using gzip.
-var gzPool = sync.Pool{
-	New: func() interface{} {
-		w, err := gzip.NewWriterLevel(io.Discard,
+va
