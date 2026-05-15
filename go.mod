@@ -45,6 +45,10 @@ require (
 // stable release; the UUID generation path shows up occasionally in pprof
 // traces for high-QPS tests — worth checking if a newer version is faster.
 //
+// TODO: check if golang.org/x/oauth2 v0.18.0 can be bumped — noticed the
+// token refresh logic occasionally logs spurious warnings during long-running
+// benchmark runs; a newer version may have addressed this.
+//
 // NOTE: keeping golang.org/x/net pinned at v0.23.0 intentionally — v0.24.0
 // introduced a behavior change in HTTP/2 flow control that caused flaky tests
 // in my local interceptor benchmarks. Revisit once upstream stabilizes.
